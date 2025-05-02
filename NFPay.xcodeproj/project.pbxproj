@@ -63,11 +63,21 @@
 			);
 			target = E3F4B3E82DC4D6DA006AC4A9 /* NFPayReceiveMoney */;
 		};
+		E3F4B4122DC4EEAC006AC4A9 /* Exceptions for "NFPay" folder in "NFPay" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E3C020CF2DC4D27B001E4829 /* NFPay */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E3C020D22DC4D27B001E4829 /* NFPay */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E3F4B4122DC4EEAC006AC4A9 /* Exceptions for "NFPay" folder in "NFPay" target */,
+			);
 			path = NFPay;
 			sourceTree = "<group>";
 		};
@@ -494,12 +504,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = NFPay/NFPay.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NFPay/Preview Content\"";
 				DEVELOPMENT_TEAM = 4XB6R5YBBD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NFPay/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "This app uses NFC to detect payment tags.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -525,12 +538,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = NFPay/NFPay.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NFPay/Preview Content\"";
 				DEVELOPMENT_TEAM = 4XB6R5YBBD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NFPay/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "This app uses NFC to detect payment tags.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
