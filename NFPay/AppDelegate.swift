@@ -5,16 +5,33 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-
-        // Set AppDelegate as the delegate for notifications
         UNUserNotificationCenter.current().delegate = self
         return true
     }
 
-    // Show banner while app is in the foreground
+    // Show notifications while app is in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
+    }
+
+    // Handle button taps in notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        switch response.actionIdentifier {
+        case "APPROVE_ACTION":
+            print("✅ Transfer approved")
+        case "REJECT_ACTION":
+            print("❌ Transfer rejected")
+        case "REMIND_ACTION":
+            print("⏰ Reminder set")
+        default:
+            break
+        }
+
+        completionHandler()
     }
 }
