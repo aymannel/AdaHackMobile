@@ -1,32 +1,27 @@
-//
-//  NFPayApp.swift
-//  NFPay
-//
-//  Created by Ayman El Amrani on 02/05/2025.
-//
-
 import SwiftUI
-import SwiftData
+import UserNotifications
 
 @main
 struct NFPayApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    // Set the notification delegate in the app initialiser
+    init() {
+        UNUserNotificationCenter.current().delegate = NotificationDelegate()
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+    }
+}
+
+// Custom delegate to show notifications while the app is in the foreground
+class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler:
+                                @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("🔔 Notification received while app is in foreground")
+        completionHandler([.banner, .sound]) // <-- Show it even when foregrounded
     }
 }
