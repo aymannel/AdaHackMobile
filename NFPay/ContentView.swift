@@ -2,17 +2,9 @@ import SwiftUI
 import UserNotifications
 
 private func registerNotificationActions() {
-    let approve = UNNotificationAction(identifier: "APPROVE_ACTION",
-                                       title: "Approve",
-                                       options: [.authenticationRequired])
-
-    let reject = UNNotificationAction(identifier: "REJECT_ACTION",
-                                      title: "Reject",
-                                      options: [.destructive])
-
-    let remind = UNNotificationAction(identifier: "REMIND_ACTION",
-                                      title: "Remind Me Later",
-                                      options: [])
+    let approve = UNNotificationAction(identifier: "APPROVE_ACTION", title: "Approve", options: [])
+    let reject = UNNotificationAction(identifier: "REJECT_ACTION", title: "Reject", options: [.destructive])
+    let remind = UNNotificationAction(identifier: "REMIND_ACTION", title: "Remind Me Later", options: [])
 
     let category = UNNotificationCategory(identifier: "TRANSFER_REQUEST_CATEGORY",
                                           actions: [approve, reject, remind],
