@@ -14,8 +14,8 @@ private func registerNotificationActions() {
     UNUserNotificationCenter.current().setNotificationCategories([category])
 }
 
-
 struct ContentView: View {
+    @EnvironmentObject var router: AppRouter
     @State private var nfcReader = NFCReader()
 
     init() {
@@ -24,23 +24,26 @@ struct ContentView: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            Button("Receive Money") {
-                sendMoneyReceivedNotification()
-            }
-            .buttonStyle(.bordered)
+        Group {
+            if router.showAmountEntry {
+                AmountEntryView(
+                    onSend: sendMoneyReceivedNotification,
+                    onRequest: sendTransferRequestNotification
+                )
+            } else {
+                VStack(spacing: 20) {
 
-            Button("Approve Transfer Request") {
-                sendTransferRequestNotification()
+                    Button("Scan NFPay Tag") {
+                        nfcReader.beginScanning()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                .padding()
             }
-            .buttonStyle(.bordered)
-
-            Button("Scan NFPay Tag") {
-                nfcReader.beginScanning()
-            }
-            .buttonStyle(.bordered)
         }
-        .padding()
+        .onReceive(NotificationCenter.default.publisher(for: .launchAmountEntry)) { _ in
+            router.showAmountEntry = true
+        }
     }
 
     private func requestNotificationPermission() {
@@ -56,10 +59,10 @@ struct ContentView: View {
     private func sendMoneyReceivedNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Money Received"
-        content.body = "£10 Received from Ishan"
+        content.body = "£10 Received from Ayman"
         content.sound = .default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,
                                             trigger: trigger)
@@ -89,7 +92,6 @@ struct ContentView: View {
             }
         }
     }
-
 }
 
 
@@ -161,7 +163,7 @@ class NFCReader: NSObject, NFCNDEFReaderSessionDelegate {
     private func triggerNotification() {
         let content = UNMutableNotificationContent()
         content.title = "NFPay Tag Detected"
-        content.body = "Open the app to send or request money to Ayman"
+        content.body = "Open the app to send or request money to Ishan"
         content.sound = .default
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -172,4 +174,3 @@ class NFCReader: NSObject, NFCNDEFReaderSessionDelegate {
         UNUserNotificationCenter.current().add(request)
     }
 }
-

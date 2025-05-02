@@ -10,6 +10,21 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
 
+    // Handle URL-based app opening (e.g. nfpay://amount-entry)
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        if url.scheme == "nfpay", url.host == "amount-entry" {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .launchAmountEntry, object: nil)
+            }
+            return true
+        }
+
+        return false
+    }
+
     // Display notification banner while app is in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
@@ -32,13 +47,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             urlString = "https://luckily-learning-elf.ngrok-free.app/decline"
         case "REMIND_ACTION":
             urlString = "https://luckily-learning-elf.ngrok-free.app/defer"
+        case UNNotificationDefaultActionIdentifier:
+            // User tapped the notification (not a button)
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .launchAmountEntry, object: nil)
+                completionHandler()
+            }
+            return
         default:
             urlString = nil
         }
 
         guard let urlStr = urlString, let url = URL(string: urlStr) else {
             print("❌ No valid endpoint for action: \(action)")
-            completionHandler()
+            DispatchQueue.main.async {
+                completionHandler()
+            }
             return
         }
 
@@ -60,3 +84,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         task.resume()
     }
 }
+
+// Notification name used for routing to the amount entry screen
+extension Notification.Name {
+    static let launchAmountEntry = Notification.Name("launchAmountEntry")
+}
+
