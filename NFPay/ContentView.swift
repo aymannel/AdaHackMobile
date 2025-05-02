@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  NFPay
-//
-//  Created by Ayman El Amrani on 02/05/2025.
-//
-
 import SwiftUI
 import UserNotifications
 
@@ -20,6 +13,16 @@ struct ContentView: View {
                 sendMoneyReceivedNotification()
             }
             .buttonStyle(.bordered)
+
+            Button("Approve Transfer Request") {
+                // Action
+            }
+            .buttonStyle(.bordered)
+
+            Button("NFPay Tag Detected") {
+                // Action
+            }
+            .buttonStyle(.bordered)
         }
         .padding()
     }
@@ -27,11 +30,9 @@ struct ContentView: View {
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
-                print("Notification permission granted")
-            } else if let error = error {
-                print("Error requesting notification permission: \(error.localizedDescription)")
+                print("✅ Notification permission granted")
             } else {
-                print("Notification permission denied")
+                print("❌ Notification permission denied")
             }
         }
     }
@@ -42,8 +43,10 @@ struct ContentView: View {
         content.body = "£10 Received from Ishan"
         content.sound = .default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                            content: content,
+                                            trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
